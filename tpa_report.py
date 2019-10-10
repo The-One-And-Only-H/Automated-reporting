@@ -1,7 +1,9 @@
 import pymysql
 import os
 import sys
-import csv
+import time
+import re
+from slackclient import SlackClient
 
 def main():
     try:
@@ -14,7 +16,9 @@ def main():
         user='tpaDBAdmin',
         password=password,
         charset='utf8mb4',
-        db='tpa_2020_staging')
+        db='tpa_2020_staging') 
+
+        # change above to production when ready
 
     curs = connection.cursor()
 
@@ -40,19 +44,31 @@ def main():
     CROSS JOIN (SELECT COUNT(*) AS I FROM `nominations` WHERE `categoryNames` LIKE '%Academic Achievement%') i
     CROSS JOIN (SELECT COUNT(*) AS J FROM `nominations` WHERE `categoryNames` LIKE '%Entrepreneur Award%') j""")
 
-    w = csv.writer(sys.stdout)
+    rec = curs.fetchone()
 
-    w.writerow(f[0] for f in curs.description)
+    msg = "\n".join(f'{d[0]}: {v}' for (d, v) in zip(curs.description, rec))
 
-    for row in curs.fetchall():
-        w.writerow(row)
+    try:
+      slack_token = os.environ['TPA_SLACK_TOKEN']
+    except KeyError:
+      print("Please specify the TPA_SLACK_TOKEN env var", file=sys.stderr)
+      sys.exit(1)
+
+    slack_client = SlackClient(slack_token)
+
+    slack_client.api_call("chat.postMessage", channel="test", text="Nominations:\n" + msg)
+
+    # change above to tpa channel when ready
 
     curs.execute("""SELECT country, COUNT(*) AS nominations FROM nominations GROUP BY country ORDER BY COUNT(*) DESC""")
 
-    w.writerow(f[0] for f in curs.description)
+    rec = curs.fetchall()
 
-    for row in curs.fetchall():
-        w.writerow(row)
+    msg2 = "\n".join('%s: %s' % (country or "Undefined", num) for country, num in rec)
+
+    slack_client.api_call("chat.postMessage", channel="test", text="Countries:\n" + msg2)
+
+    # change above to tpa channel when ready
 
 if __name__ == '__main__':
     main()
