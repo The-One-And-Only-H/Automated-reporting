@@ -7,4 +7,5 @@ After which:
 
 - Work in the virtualenv with `source env/bin/activate`
 - Export an environment variable with the confidential password: `export TPA_DB_PASSWORD=password`
+- Export an environment variable with the confidential token: `export TPA_SLACK_TOKEN=slack_token`
 - Run the script with `python tpa_report.py`
