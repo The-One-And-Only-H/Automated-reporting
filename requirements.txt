@@ -1,2 +1,2 @@
-pymysql
+PyMySQL>=0.9,<1
 slackclient>=2.2,<2.3

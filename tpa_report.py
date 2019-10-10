@@ -16,7 +16,7 @@ def main():
         user='tpaDBAdmin',
         password=password,
         charset='utf8mb4',
-        db='tpa_2020_staging') 
+        db='tpa_2020_production') 
 
         # change above to production when ready
 
@@ -56,9 +56,7 @@ def main():
 
     slack_client = WebClient(slack_token)
 
-    slack_client.chat_postMessage(channel="test", text="Nominations:\n" + msg)
-
-    # change above to tpa channel when ready
+    slack_client.chat_postMessage(channel="tpa-2020", text="Nominations:\n" + msg)
 
     curs.execute("""SELECT country, COUNT(*) AS nominations FROM nominations GROUP BY country ORDER BY COUNT(*) DESC""")
 
@@ -66,9 +64,7 @@ def main():
 
     msg2 = "\n".join('%s: %s' % (country or "Undefined", num) for country, num in rec)
 
-    slack_client.chat_postMessage(channel="test", text="Countries:\n" + msg2)
-
-    # change above to tpa channel when ready
+    slack_client.chat_postMessage(channel="tpa-2020", text="Countries:\n" + msg2)
 
 if __name__ == '__main__':
     main()
