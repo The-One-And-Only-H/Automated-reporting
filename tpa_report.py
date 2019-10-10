@@ -3,7 +3,7 @@ import os
 import sys
 import time
 import re
-from slackclient import SlackClient
+from slack import WebClient
 
 def main():
     try:
@@ -54,9 +54,9 @@ def main():
       print("Please specify the TPA_SLACK_TOKEN env var", file=sys.stderr)
       sys.exit(1)
 
-    slack_client = SlackClient(slack_token)
+    slack_client = WebClient(slack_token)
 
-    slack_client.api_call("chat.postMessage", channel="test", text="Nominations:\n" + msg)
+    slack_client.chat_postMessage(channel="test", text="Nominations:\n" + msg)
 
     # change above to tpa channel when ready
 
@@ -66,7 +66,7 @@ def main():
 
     msg2 = "\n".join('%s: %s' % (country or "Undefined", num) for country, num in rec)
 
-    slack_client.api_call("chat.postMessage", channel="test", text="Countries:\n" + msg2)
+    slack_client.chat_postMessage(channel="test", text="Countries:\n" + msg2)
 
     # change above to tpa channel when ready
 
