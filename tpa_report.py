@@ -18,8 +18,6 @@ def main():
         charset='utf8mb4',
         db='tpa_2020_production') 
 
-        # change above to production when ready
-
     curs = connection.cursor()
 
     curs.execute("""SELECT
