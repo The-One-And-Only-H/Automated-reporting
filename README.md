@@ -14,7 +14,7 @@ If you want to schedule running the program regularly then you can use this in y
 
 - `TPA_DB_PASSWORD=<your pass>`
 - `TPA_SLACK_TOKEN=<your token>`
-- `0 11 * * thu /path/to/here/env/bin/python /path/to/here/tpa_report.py`
+- `0 9 * * thu /path/to/here/env/bin/python /path/to/here/tpa_report.py`
 
 Output example:
 
