@@ -1,3 +1,14 @@
+# Automated reporting
+
+Python script built for Neverbland sending automated internal weekly reports using Slackbot and Crontabs.
+
+Tech stack:
+
+- Python
+- SQL
+- Slack client
+- Crontabs
+
 The first time you check out the code:
 
 - Create a virtualenv with `virtualenv -p python3 env`
