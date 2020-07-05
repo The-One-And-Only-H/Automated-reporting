@@ -6,6 +6,7 @@ Tech stack:
 
 - Python
 - SQL
+- PyMySQL
 - Slack client
 - Crontabs
 
